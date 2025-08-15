@@ -1,0 +1,14 @@
+{
+  "name": "project-x-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "ws": "^8.18.0"
+  },
+  "scripts": {
+    "start": "node server.cjs"
+  }
+}
