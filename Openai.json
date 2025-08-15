@@ -1,0 +1,387 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Project X API",
+    "version": "1.0.0",
+    "description": "API for Project X custom GPT — combat, bosses, voices, music, relationships, portraits, and universe mechanics."
+  },
+  "paths": {
+    "/startCombat": {
+      "post": {
+        "summary": "Start combat",
+        "description": "Starts a combat encounter with specified party, enemies, and universe context.",
+        "operationId": "startCombat",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "party": { "type": "array", "items": { "type": "string" } },
+                  "enemies": { "type": "array", "items": { "type": "string" } },
+                  "universe": { "type": "string" },
+                  "musicTheme": { "type": "string" }
+                },
+                "required": ["party", "enemies", "universe"]
+              },
+              "example": {
+                "party": ["Gabriel", "Simba"],
+                "enemies": ["Street Punk"],
+                "universe": "Yakuza",
+                "musicTheme": "battle_theme_yakuza.ogg"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Combat started" } }
+      }
+    },
+    "/endCombat": {
+      "post": {
+        "summary": "End combat",
+        "description": "Ends the current combat encounter.",
+        "operationId": "endCombat",
+        "responses": { "200": { "description": "Combat ended" } }
+      }
+    },
+    "/updateBossPhase": {
+      "post": {
+        "summary": "Update boss phase",
+        "description": "Changes the current boss phase, optionally triggering a pseudo-cutscene.",
+        "operationId": "updateBossPhase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phaseNumber": { "type": "integer" },
+                  "pseudoCutsceneText": { "type": "string" }
+                },
+                "required": ["phaseNumber"]
+              },
+              "example": { "phaseNumber": 2, "pseudoCutsceneText": "The boss transforms!" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Boss phase updated" } }
+      }
+    },
+    "/triggerCutscene": {
+      "post": {
+        "summary": "Trigger cutscene",
+        "description": "Displays a pseudo-cutscene with optional art.",
+        "operationId": "triggerCutscene",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": { "type": "string" },
+                  "art": { "type": "string" }
+                },
+                "required": ["text"]
+              },
+              "example": { "text": "Gabriel walks into the room...", "art": "/images/scene1.png" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Cutscene triggered" } }
+      }
+    },
+    "/playBanterLine": {
+      "post": {
+        "summary": "Play banter line",
+        "description": "Plays a single banter line from a character.",
+        "operationId": "playBanterLine",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "character": { "type": "string" },
+                  "line": { "type": "string" }
+                },
+                "required": ["character", "line"]
+              },
+              "example": { "character": "Simba", "line": "This fight’s mine!" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Banter line played" } }
+      }
+    },
+    "/queueBanter": {
+      "post": {
+        "summary": "Queue banter",
+        "description": "Queues multiple banter lines to be played in sequence.",
+        "operationId": "queueBanter",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lines": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "character": { "type": "string" },
+                        "line": { "type": "string" }
+                      }
+                    }
+                  }
+                },
+                "required": ["lines"]
+              },
+              "example": {
+                "lines": [
+                  { "character": "Kakashi", "line": "Stay sharp." },
+                  { "character": "Leonardo", "line": "On it!" }
+                ]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Banter queued" } }
+      }
+    },
+    "/playVoiceLine": {
+      "post": {
+        "summary": "Play ElevenLabs voice line",
+        "description": "Triggers a voice line with a specific ElevenLabs voice ID.",
+        "operationId": "playVoiceLine",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "character": { "type": "string" },
+                  "line": { "type": "string" },
+                  "voiceId": { "type": "string" }
+                },
+                "required": ["character", "line", "voiceId"]
+              },
+              "example": {
+                "character": "Jolyne Cujoh",
+                "line": "Don't underestimate me.",
+                "voiceId": "3PAmypameB6I7mYs2eGQ"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Voice line played" } }
+      }
+    },
+    "/updateRelationship": {
+      "post": {
+        "summary": "Update relationship",
+        "description": "Updates relationship value between two characters.",
+        "operationId": "updateRelationship",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "from": { "type": "string" },
+                  "to": { "type": "string" },
+                  "change": { "type": "integer" }
+                },
+                "required": ["from", "to", "change"]
+              },
+              "example": { "from": "Gabriel", "to": "Simba", "change": 5 }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Relationship updated" } }
+      }
+    },
+    "/setUniverseUI": {
+      "post": {
+        "summary": "Set universe UI",
+        "description": "Changes the UI style to match a universe.",
+        "operationId": "setUniverseUI",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "universe": { "type": "string" } },
+                "required": ["universe"]
+              },
+              "example": { "universe": "Persona 5" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Universe UI changed" } }
+      }
+    },
+    "/setCharacterPortrait": {
+      "post": {
+        "summary": "Set character portrait",
+        "description": "Changes a character's portrait state.",
+        "operationId": "setCharacterPortrait",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "character": { "type": "string" },
+                  "state": { "type": "string" }
+                },
+                "required": ["character", "state"]
+              },
+              "example": { "character": "Gabriel", "state": "damaged" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Portrait changed" } }
+      }
+    },
+    "/playBattleIntroAnimation": {
+      "post": {
+        "summary": "Play battle intro animation",
+        "description": "Triggers the X-slash intro animation for a battle.",
+        "operationId": "playBattleIntroAnimation",
+        "responses": { "200": { "description": "Intro animation played" } }
+      }
+    },
+    "/playMusic": {
+      "post": {
+        "summary": "Play music track",
+        "description": "Plays a background music track.",
+        "operationId": "playMusic",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "src": { "type": "string" },
+                  "fadeMs": { "type": "integer" }
+                },
+                "required": ["src"]
+              },
+              "example": { "src": "/audio/persona5_battle_remix.ogg", "fadeMs": 800 }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Music playing" } }
+      }
+    },
+    "/setMusicPhase": {
+      "post": {
+        "summary": "Set music phase",
+        "description": "Changes to a different music phase.",
+        "operationId": "setMusicPhase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phase": { "type": "string" },
+                  "src": { "type": "string" }
+                },
+                "required": ["phase", "src"]
+              },
+              "example": { "phase": "phase2", "src": "/audio/ludwig_phase2.ogg" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Music phase changed" } }
+      }
+    },
+    "/layerMusic": {
+      "post": {
+        "summary": "Layer music",
+        "description": "Adds or removes a music layer.",
+        "operationId": "layerMusic",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": { "type": "string", "enum": ["add", "remove"] },
+                  "layerId": { "type": "string" },
+                  "src": { "type": "string" }
+                },
+                "required": ["action", "layerId"]
+              },
+              "example": { "action": "add", "layerId": "choir_soft", "src": "/audio/ludwig_layer.ogg" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Music layer updated" } }
+      }
+    },
+    "/activateWorldMechanic": {
+      "post": {
+        "summary": "Activate universe-specific mechanic",
+        "description": "Triggers a mechanic unique to a universe.",
+        "operationId": "activateWorldMechanic",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "universe": { "type": "string" },
+                  "event": { "type": "string" },
+                  "payload": { "type": "object" }
+                },
+                "required": ["universe", "event"]
+              },
+              "example": { "universe": "Persona 5", "event": "AllOutAttack" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "World mechanic activated" } }
+      }
+    },
+    "/storyTriggerCombat": {
+      "post": {
+        "summary": "Trigger combat from story",
+        "description": "Starts combat when trigger phrase is found in story text.",
+        "operationId": "storyTriggerCombat",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storyText": { "type": "string" },
+                  "triggerPhrase": { "type": "string" }
+                },
+                "required": ["storyText"]
+              },
+              "example": { "storyText": "The enemy charges. Begin combat.", "triggerPhrase": "Begin combat" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Combat triggered" } }
+      }
+    }
+  }
+}
