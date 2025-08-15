@@ -1,0 +1,13 @@
+# Gitpod config: install deps, run server, and expose port 3000
+ports:
+  - port: 3000
+    onOpen: open-preview
+    visibility: public
+
+# Default task: install and start API
+tasks:
+  - name: Project X API
+    init: |
+      npm install
+    command: |
+      npm start
